@@ -620,7 +620,6 @@
     window.addEventListener('load', () => {
       // The inner div with animated percentage
       const percentDiv = document.querySelector('#loader > div > div');
-      // We'll animate the content text manually:
       const percents = ['0%', '11%', '19%', '25%', '31%', '40%', '51%', '67%', '74%', '75%', '86%', '95%', '98%', '99%', '100%'];
       let idx = 0;
       let interval = setInterval(() => {
@@ -630,14 +629,14 @@
         if (idx >= percents.length) idx = 0;
       }, 200);
 
-      // Remove loader after 1.25 seconds with fade out
+      // Remove loader after X seconds with fade out
       setTimeout(() => {
         const loader = document.getElementById('loader');
         if (!loader) return;
         loader.style.transition = 'opacity 0.5s ease';
         loader.style.opacity = '0';
         setTimeout(() => loader.remove(), 500);
-      }, 100);
+      }, 2200);
     });
 
     document.getElementById("Settings-Tab").addEventListener("click", () => {
