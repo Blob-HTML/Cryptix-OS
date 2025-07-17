@@ -1,42 +1,655 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Cryptix-OS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://i.postimg.cc/FzJHg8zZ/Cryptix-OS.png">
-    <style>
-        body {
-            padding: 25px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cryptix-OS</title>
+  <link rel="icon" href="https://i.postimg.cc/BbLhVyBc/Cryptix-OS-1.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .title {
-            color: #764ba2;
-            text-align: center;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #40e0d0 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+    }
 
-        .sub-text {
-            color: #667eea;
-            text-align: center;
-        }
 
-        .contact {
-            text-align: center;
-        }
+    .background-animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(64, 224, 208, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(147, 51, 234, 0.2) 0%, transparent 50%);
+      animation: float 6s ease-in-out infinite;
+    }
 
-        a:link {
-            text-decoration: none;
-            text-align: center;
-        }
-    </style>
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-20px) rotate(2deg);
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 90%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 50px rgba(27, 27, 27, 0.4);
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #9333ea, #40e0d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      text-shadow: 0 0 30px rgba(64, 224, 208, 0.5);
+    }
+
+    .tagline {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    .search-container {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 18px 25px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: #40e0d0;
+      box-shadow: 0 0 25px rgba(64, 224, 208, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .search-box::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(45deg, #9333ea, #40e0d0);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 5px 15px rgba(64, 224, 208, 0.4);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      margin: 8px 0;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transform: translateX(5px);
+      border-color: #40e0d0;
+      box-shadow: 0 5px 15px rgba(64, 224, 208, 0.2);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, #9333ea, #40e0d0);
+      color: white;
+    }
+
+    .nav-icon {
+      font-size: 1.3rem;
+      margin-right: 15px;
+      min-width: 25px;
+    }
+
+    .nav-text {
+      font-weight: 500;
+    }
+
+
+    .content {
+      display: none;
+      margin-top: 30px;
+      color: white;
+    }
+
+    .content h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    .Settings-Tab {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .Settings-Tab:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 2.5rem;
+      }
+
+      .container {
+        padding: 30px 20px;
+      }
+
+      .sidebar {
+        width: 280px;
+        left: -240px;
+      }
+
+      .sidebar-trigger {
+        right: -35px;
+        width: 35px;
+        height: 70px;
+      }
+    }
+
+    .time-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      text-align: center;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      max-width: 210px;
+      width: 90%;
+      color: #40e0d0;
+    }
+
+    .discord-logo {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 20;
+    }
+
+
+    .discord-link {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      padding: 0.75rem;
+      background: rgba(238, 238, 238, 0.05);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .discord-link:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .settings-panel {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-left: 2px solid rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+      transition: right 0.4s ease;
+      z-index: 1000;
+    }
+
+    .settings-panel.active {
+      right: 0;
+    }
+
+    .close-settings {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .close-settings:hover {
+      transform: scale(1.2);
+      color: #40e0d0;
+    }
+
+    /* The switch - the box around the slider */
+    .switch {
+      font-size: 17px;
+      position: relative;
+      display: inline-block;
+      width: 3.5em;
+      height: 2em;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* The slider */
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgb(182, 182, 182);
+      transition: .4s;
+      border-radius: 10px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 1.4em;
+      width: 1.4em;
+      border-radius: 8px;
+      left: 0.3em;
+      bottom: 0.3em;
+      transform: rotate(270deg);
+      background-color: rgb(255, 255, 255);
+      transition: .4s;
+    }
+
+    .switch input:checked+.slider {
+      background-color: #21cc4c;
+    }
+
+    .switch input:focus+.slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+
+    .switch input:checked+.slider:before {
+      transform: translateX(1.5em);
+    }
+
+    @keyframes percent {
+      0% {
+        content: '0%';
+      }
+
+      11% {
+        content: '11%';
+      }
+
+      19% {
+        content: '19%';
+      }
+
+      25% {
+        content: '25%';
+      }
+
+      31% {
+        content: '31%';
+      }
+
+      40% {
+        content: '40%';
+      }
+
+      51% {
+        content: '51%';
+      }
+
+      67% {
+        content: '67%';
+      }
+
+      74% {
+        content: '74%';
+      }
+
+      75% {
+        content: '75%';
+      }
+
+      86% {
+        content: '86%';
+      }
+
+      95% {
+        content: '95%';
+      }
+
+      98% {
+        content: '98%';
+      }
+
+      99% {
+        content: '99%';
+      }
+
+      100% {
+        content: '100%';
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <h2 class="title">Cryptix-OS Is In Development</h2>
-    <h3 class="sub-text">Cryptix-OS Development Will Be Completed in the near future</h3>
-    <h4 class="contact">Contact Me @: <a href="https://github.com/Blob-HTML"><span>GitHub</span></a></h4>
+  <!-- Loader -->
+  <div id="loader" style="
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #40e0d0 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+">
+    <div style="
+    position: relative;
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+    background: linear-gradient(135deg,  0%, #764ba2 50%, #40e0d0 100%);
+    box-shadow:
+      0.5em 0.5em 3em #764ba2,
+      -0.5em 0.5em 3em #4affed,
+      0.5em -0.5em 3em #4f4cff,
+      -0.5em -0.5em 3em #0dff92;
+    animation: rotate 3s linear infinite;
+  ">
+      <div style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1.5em;
+      animation: percent 1s ease-in-out infinite;
+      user-select: none;
+    "></div>
+    </div>
+  </div>
+
+  <div id="main-content" class="container">
+    <!--Main Content-->
+    <div id="Home" class="content" style="display: block;">
+      <div class="logo">Cryptix</div>
+      <div class="tagline">Explore the Unblocked Web</div>
+      <div class="search-container">
+        <input type="text" class="search-box" placeholder="Search the Web..." id="searchInput">
+        <button class="search-btn" id="searchBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
+            viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M784-120 532-372q-30 24-69 38t-83
+                        14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38
+                        69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5
+                        52.5T200-580q0 75 52.5 127.5T380-400Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!--Settings Tab-->
+  <div class="Settings-Tab" id="Settings-Tab"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
+      viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+      <path
+        d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" />
+    </svg></div>
+
+  <!--Time Box-->
+  <div class="time-container">
+    <div class="time-display" id="timeDisplay">00:00:00</div>
+    <div class="date-display" id="dateDisplay">Loading...</div>
+  </div>
+
+  <!--Discord Server-->
+  <div class="discord-logo">
+    <a href="https://discord.gg/YJMuedE2" target="_blank" class="discord-link">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.120.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z" />
+      </svg>
+    </a>
+  </div>
+
+  <div id="settingsPanel" class="settings-panel">
+    <button class="close-settings" id="closeSettingsBtn">&times;</button>
+    <h2 style="color: white; margin-bottom: 20px;">Settings</h2>
+    <hr>
+    <br>
+    <p style="color: white;"></p>
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+    <br><br><br>
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+    <br><br><br>
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+
+
+
+  <script>
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateTimeAndDate();
+      setInterval(updateTimeAndDate, 1000);
+    });
+
+
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+
+    function performSearch(query = null) {
+      const searchQuery = query || searchInput.value.trim();
+
+      if (searchQuery) {
+        console.log('Searching for:', searchQuery);
+        // Search functionality can be added here
+      }
+    }
+
+
+    // Event listeners
+    searchBtn.addEventListener('click', () => performSearch());
+
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    function updateTimeAndDate() {
+      const timeEl = document.getElementById('timeDisplay');
+      const dateEl = document.getElementById('dateDisplay');
+
+      const now = new Date();
+
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      const timeString = `${hours}:${minutes}:${seconds}`;
+      timeEl.textContent = timeString;
+
+      const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+      const dateString = now.toLocaleDateString(undefined, options);
+      dateEl.textContent = dateString;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      switchTab('Home');
+      updateTimeAndDate();
+      setInterval(updateTimeAndDate, 1000);
+    });
+
+    window.addEventListener('load', () => {
+      // The inner div with animated percentage
+      const percentDiv = document.querySelector('#loader > div > div');
+      // We'll animate the content text manually:
+      const percents = ['0%', '11%', '19%', '25%', '31%', '40%', '51%', '67%', '74%', '75%', '86%', '95%', '98%', '99%', '100%'];
+      let idx = 0;
+      let interval = setInterval(() => {
+        if (!percentDiv) return;
+        percentDiv.textContent = percents[idx];
+        idx++;
+        if (idx >= percents.length) idx = 0;
+      }, 200);
+
+      // Remove loader after 1.25 seconds with fade out
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (!loader) return;
+        loader.style.transition = 'opacity 0.5s ease';
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 500);
+      }, 100);
+    });
+
+    document.getElementById("Settings-Tab").addEventListener("click", () => {
+      const panel = document.getElementById("settingsPanel");
+      panel.classList.toggle("active");
+    });
+
+    document.getElementById("closeSettingsBtn").addEventListener("click", () => {
+      document.getElementById("settingsPanel").classList.remove("active");
+    });
+
+  </script>
 </body>
 
 </html>
