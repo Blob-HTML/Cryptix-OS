@@ -1,1 +1,1 @@
-# Cryptix-OS HTTP link: http://cryptix-os.root.sx
+# Cryptix-OS, Web Proxy. HTTP link: http://cryptix-os.root.sx
